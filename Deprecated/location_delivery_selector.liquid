@@ -1,0 +1,103 @@
+{% comment  %}  
+  Need shopify api + server to work
+{% endcomment %}
+
+<script>
+  window.onload = () => {
+    const requestOptions = {
+      X-Shopify-Access-Token: "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",
+      method: "GET",
+      mode: "no-cors",
+      redirect: "follow"
+    };
+
+    // Apis 
+    const store = "https:\/\/" + {{ shop.permanent_domain | json }};
+    const locationsApi = '/admin/api/2022-10/locations';
+    const locationsInventoryLevelsApi = '/inventory_levels';
+    const productApi = '/admin/products/';
+
+    const cartItems = {{ cart.items | json }};
+
+    let cartItemsId = [];
+    cartItems.forEach(e => cartItemsId.push({"variant_id": e.id, "product_id": e.product_id, "name": e.title, "image": e.image, "quantity": e.quantity, "inventory_item_id": undefined}));
+
+    let locationsId = [];
+    let locationsInventory = [];
+    let allOptions = [];
+    let finalOptions = [];
+
+    const getLocations = async () => {
+      await fetch(`${store}${locationsApi}.json`, requestOptions).then((response) => response.json()).then((result) => {
+        const locations = result.locations;
+        locations.forEach(e => locationsId.push({"id":e.id, "name": e.name}));
+      }).catch((error) => console.error("error", error));
+
+      const getLocationsInventory = async (locationID, locationName) => {
+        await fetch(`${store}${locationsApi}/${locationID}${locationsInventoryLevelsApi}.json`, requestOptions).then((response) => response.json()).then((result) => {
+          locationsInventory.push({"name":`${locationName}`,"inventory_levels":result.inventory_levels});
+        }).catch((error) => console.error("error", error));
+      };
+
+      const getProductsID = async (iteration, variantId, productID) => {
+        try {
+          await fetch(`${store}${productApi}${productID}.json`, requestOptions).then((response) => response.json()).then((result) => {
+            let variants = result.product.variants
+            const productFound = variants.find(({id}) => id === variantId);
+            cartItemsId[iteration].inventory_item_id = productFound.inventory_item_id;
+          }).catch((error) => console.error("error", error));
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      
+      //Bucles
+      for (let i = 0; i < locationsId.length; i++) {
+        getLocationsInventory(locationsId[i].id, locationsId[i].name);
+      };
+      for (let i = 0; i < cartItemsId.length; i++) {
+        getProductsID(i, cartItemsId[i].variant_id, cartItemsId[i].product_id);
+      }
+    };
+    getLocations();
+
+    setTimeout(() => {
+    //console.log("cartItems: ", cartItems);  
+    console.log("Cart ItemsID: ", cartItemsId);  
+    //console.log("locationsId: ", locationsId);  
+    //console.log("locationsInventory: ", locationsInventory);
+      for (let i = 0; i < locationsInventory.length; i++) {
+            allOptions.push([]);
+        for (let j = 0; j < cartItemsId.length; j++) {
+          let productFound = locationsInventory[i].inventory_levels.find(({inventory_item_id}) => inventory_item_id === cartItemsId[j].inventory_item_id);
+          if(productFound != undefined && cartItemsId[j].quantity < productFound.available){
+            allOptions[i].push({"name": locationsInventory[i].name, "location_id": productFound.location_id ,"inventory_levels": productFound});
+          }
+        }
+        if(allOptions[i].length === cartItemsId.length){
+          //console.log("estan todos en ", allOptions[i]);
+          //console.log("locationsInventory founded", locationsInventory[i]); 
+          finalOptions.push({"name": locationsInventory[i].name, "products":cartItemsId})
+
+        }
+      }
+          //console.log("allOptions", allOptions);
+        if(finalOptions.length > 0){
+          const box = document.getElementById("shopify-section-static-cart");
+          finalOptions.forEach((e) => {
+            {%- comment -%} AQUI QUEDASTE {%- endcomment -%}
+            box.append(e.name, "br")
+            console.log("Final Object", e);
+          })
+        }else{
+          console.log("No hay Opciones que mostrar ");
+        }
+
+      }, 2500);
+  }
+</script>
+
+{% section 'static-cart' %}
+{% render 'nosto-element', id:'cartpage-nosto-1' %}
+{% render 'nosto-element', id:'cartpage-nosto-2' %}
+{% render 'nosto-element', id:'cartpage-nosto-3' %}

@@ -1,0 +1,186 @@
+{% comment %}
+  Calculadora envios ver bebesit
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+
+  
+  <div class="modalHeader">
+    <div class="text-center mb-3">
+      <h2>Calcula el costo de tu envío</h2>
+    </div>
+  </div>
+  <hr />
+  <div>
+    <p>Selecciona región y comuna para calcular</p>
+  </div>
+  <div class="boxSelects"><select id="provinces_selector" value="">
+      <option selected="selected" disabled="disabled">Selecciona tu Región</option>
+    </select><select id="cities_selector">
+      <option selected="selected" disabled="disabled" value="">Selecciona tu Ciudad</option>
+    </select>
+    <div class="result_delivery_box">
+      <p id="delivery_price"> </p>
+      <p id="delivery_dates"> </p>
+    </div>
+  </div>
+  <div>
+    <hr />
+    <p>El costo de envío corresponde únicamente a este producto.</p>
+  </div>
+
+
+  <script>
+    setTimeout(
+      window.onload = () => {
+        //console.log('init');
+
+        //Core api
+        const store = {{ shop.permanent_domain | json }};
+        //console.log(store, "store");
+        const api = "https://enviospersonalizados.lobocreaciones.dev/api/coverages";
+        //console.log(api, "api");
+        const provinces = "/provinces/enabled?store=";
+        const cities = "/cities/enabled?store=";
+
+        //Products Data
+        const productWeight = {{ product.variants[0].weight | json }};
+        //console.log(productWeight, "peso");
+        const productPrice = {{ product.price | divided_by: 100 }};
+        //console.log(productPrice, "precio");
+        let selectedProvince = "";
+        let selectedCity = "";
+        //Elements box
+        const provincesBox = document.getElementById("provinces_selector");
+        const citiesBox = document.getElementById("cities_selector");
+        const totalPriceBox = document.getElementById("delivery_price");
+        const totalDatesBox = document.getElementById("delivery_dates");
+
+        const cleanPriceBox = () => {
+          totalPriceBox.innerHTML = "";
+          totalDatesBox.innerHTML = "";
+        };
+
+        //HTTP params
+        const requestOptions = {
+          method: "GET",
+          redirect: "follow",
+        };
+
+        const getProvinces = async () => {
+          await fetch(`${api}${provinces}${store}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+              const regiones = result.regiones;
+              regiones.forEach((e) => {
+                let provinceOption = document.createElement("option");
+                provinceOption.setAttribute("value", `${e.codigo}`);
+                provincesBox.appendChild(provinceOption);
+                provinceOption.innerHTML = `${e.nombre}`;
+              });
+            })
+            .catch((error) => console.error("error", error));
+        };
+        getProvinces();
+
+        const getCities = async (filtro = "") => {
+          citiesBox.innerHTML =
+            "<option selected disabled> Selecciona tu Ciudad </option>";
+
+          await fetch(`${api}${cities}${store}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+              let ciudades = result.comunas;
+              if (filtro != "") {
+                ciudades = ciudades.filter(
+                  (region) => region.region === filtro
+                );
+              }
+              ciudades.forEach((e) => {
+                let cityOption = document.createElement("option");
+                cityOption.setAttribute("value", `${e.nombre}`);
+                cityOption.setAttribute("region", `${e.region}`);
+                citiesBox.appendChild(cityOption);
+                cityOption.innerHTML = `${e.nombre}`;
+              });
+            })
+            .catch((error) => console.error("error", error));
+        };
+        getCities();
+
+        provincesBox.addEventListener("change", () => {
+          cleanPriceBox();
+          selectedProvince = provincesBox.value;
+          selectedCity = "";
+          getCities(provincesBox.value);
+          getPriceCurrier();
+        });
+
+        citiesBox.addEventListener("change", () => {
+          cleanPriceBox();
+          selectedCity = citiesBox.value;
+          getPriceCurrier();
+        });
+
+        //Get and print value
+        const getPriceCurrier = async () => {
+          let postOptions = {
+            method: "POST",
+            headers: {
+              "x-shopify-shop-domain": store,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              rate: {
+                origin: {
+                  country: "CL",
+                },
+                destination: {
+                  province: selectedProvince,
+                  city: selectedCity,
+                },
+                items: [
+                  {
+                    quantity: 1,
+                    grams: productWeight,
+                    price: productPrice,
+                  },
+                ],
+                currency: "CLP",
+                locale: "es",
+              },
+            }),
+          };
+          if (selectedProvince !== "" && selectedCity !== "") {
+            await fetch(
+              "https://enviospersonalizados.lobocreaciones.dev/api/couriers/rates",
+              postOptions
+            )
+              .then((response) => response.json())
+              .then((result) => {
+                console.log(result);
+                let priceResult = result.rates[0].total_price / 100;
+                let datesResult = result.rates[0].description;
+                cleanPriceBox();
+                totalPriceBox.innerHTML = `El costo estimado es de: <span style="font-weight: 600;" id="total_price">$${priceResult}</span>`;
+                totalDatesBox.innerHTML = `${datesResult}`;
+              })
+              .catch((error) => console.error("error", error));
+          }
+        }
+          }, 100
+        )
+  </script>
+</body>
+
+</html>

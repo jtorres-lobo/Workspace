@@ -1,0 +1,215 @@
+{%- comment -%} 
+  Use Bootstrap, Ver seccion de tipos de infuiones de Sweet tea
+{%- endcomment -%}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{%- assign blends_with_background = false -%}
+
+<section class="section {% unless blends_with_background %}section--flush{% endunless %}">
+    <div class="section__color-wrapper">
+        <div class="container {% unless blends_with_background %}vertical-breather{% endunless %}">
+            {%- if section.blocks.size > 0 -%}
+            <multi-column {% if section.settings.stack_items %}stack{% endif %} {% if section.settings.reveal_on_scroll
+                %}stagger-apparition{% endif %}
+                class="multi-column multi-column--pocket-{{ section.settings.mobile_item_size }} multi-column--spacing-{{ section.settings.spacing }}">
+                <div {% unless section.settings.stack_items %}class="scroller" {% endunless %}>
+                    <scrollable-content {% unless section.settings.stack_items %}
+                        class="multi-column__inner--scroller{% endunless %}">
+                        <div class="row row-cols-{{ section.settings.number_columns }} justify-content-center">
+                            {%- for block in section.blocks -%}
+                            <div class="m-{{ section.settings.item_spacin }} p-{{ section.settings.item_shrink }}">
+                              {% if block.settings.link_url %}
+                                <a href="{{ block.settings.link_url }}">
+                              {% endif %}
+                                    <img class="img-fluid" loading="lazy" {% render 'image-attributes' , image: block.settings.image %}>
+                              {% if block.settings.link_url %}
+                                </a>
+                              {% endif %}
+                            </div>
+                            {%- endfor -%}
+                        </div>
+                    </scrollable-content>
+
+                    {%- unless section.settings.stack_items -%}
+                    <prev-next-buttons
+                        class="multi-column__prev-next {% unless align_arrows_on_image %}multi-column__prev-next--no-image{% endunless %} hidden-pocket"
+                        <button class="multi-column__arrow prev-next-button prev-next-button--prev" disabled>
+                        <span class="visually-hidden">{{ 'general.accessibility.previous' | t }}</span>
+                        {%- include 'icon' with 'nav-arrow-left', block: true, direction_aware: true -%}
+                        </button>
+                        <button class="multi-column__arrow prev-next-button prev-next-button--next">
+                            <span class="visually-hidden">{{ 'general.accessibility.next' | t }}</span>
+                            {%- include 'icon' with 'nav-arrow-right', block: true, direction_aware: true -%}
+                        </button>
+                    </prev-next-buttons>
+                    {%- endunless -%}
+                </div>
+            </multi-column>
+            {%- endif -%}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "ordered-column",
+  "class": "shopify-section--ordered-column",
+  "blocks": [
+    {
+      "name": "Column",
+      "type": "item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reveal_on_scroll",
+      "label": "Reveal on scroll",
+      "info": "Show animation when section becomes visible.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_items",
+      "label": "Stack items",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "number_columns",
+      "label": "Number of columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "item_spacin",
+      "label": "Item Spacin",
+      "options": [
+        {
+          "value": "0",
+          "label": "0"
+        },
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "item_shrink",
+      "label": "Item Shrink",
+      "options": [
+        {
+          "value": "0",
+          "label": "0"
+        },
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ],
+      "default": "1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multi-column",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

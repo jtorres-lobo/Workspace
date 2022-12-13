@@ -1,0 +1,154 @@
+{% comment %}
+ Banner Simple section + Snippet
+{% endcomment %}
+ 
+ {% assign pdy = section.settings.desktop_spacin_y | append: 'px' %}  
+ {% assign pdx = section.settings.desktop_spacin_x | append: 'px' %}  
+ {% assign pmy = section.settings.mobile_spacin_y | append: 'px' %}  
+ {% assign pmx = section.settings.mobile_spacin_x | append: 'px' %}  
+ 
+ {% assign desktop = pdy | append: ' ' | append: pdx %}  
+ {% assign mobile = pmy | append: ' ' | append: pmx %}   
+ 
+<section>
+
+  <div id="banner-desktop" style="padding:{{ desktop }};">
+    <div class="simple-banner-img--container">
+      {% render 'image-element'
+      img: section.settings.image,
+      classes: 'simple-banner-img',
+      sizes: '100%'
+    %}
+    </div>
+  </div>
+  <div id="banner-mobile" style="padding:{{ mobile }};">
+    <div class="simple-banner-img--container">
+      {% render 'image-element'
+      img: section.settings.image,
+      classes: 'simple-banner-img',
+      sizes: '100%'
+    %}
+    </div>
+  </div>
+
+</section>
+
+
+
+{% schema %}
+{
+  "name": "Simple Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner 16:9 recommended"
+    },
+    {
+      "type": "range",
+      "id": "desktop_spacin_x",
+      "label": "Horizontal desktop spacin",
+      "default": 0,
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_spacin_y",
+      "label": "Vertical desktop spacin",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacin_x",
+      "label": "Horizontal mobile spacin",
+      "default": 0,
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacin_y",
+      "label": "Vertical mobile spacin",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [],
+  "presets": []
+}
+{% endschema %}
+
+{% stylesheet %}
+  .simple-banner-img--container{
+    max-width: 100%;
+  }
+  .simple-banner-img{
+    width: 100%;
+    height: auto;
+  }
+
+@media only screen and (min-width:521px){
+  #banner-mobile{
+    display: none;
+  }  
+}
+  
+@media only screen and (max-width:520px){
+  #banner-desktop{
+    display: none;
+  }  
+}
+  
+{% endstylesheet %}
+
+ {% comment %}
+/////////////////////////////////
+Start snippet 'image-element'
+//////////////////////////////////
+
+ {% liquid
+  assign classes = classes | escape
+  assign alt = alt | escape
+  
+  if loading == nil
+  assign loading = 'lazy'
+  endif
+  
+  # Base medium and small size off of original image width/height
+  
+  if img_height != blank
+  assign med_size = img_height | divided_by: 1.5 | ceil
+  assign sml_size = med_size | divided_by: 1.5 | ceil
+  else
+  assign med_size = img_width | divided_by: 1.5 | ceil
+  assign sml_size = med_size | divided_by: 1.5 | ceil
+  endif
+  
+  if sizes == blank
+  assign sizes = nil
+  endif
+  %}
+  
+  {% if img_height != blank %}
+  {{ img | image_url: height: img_height | image_tag: preload: preload, class: classes, loading: loading, alt: alt, sizes: sizes }}
+  {% else %}
+  {{ img | image_url: width: img_width | image_tag: preload: preload, class: classes, loading: loading, alt: alt, sizes: sizes }}
+  {% endif %}
+  
+  
+/////////////////////////////////
+Finish snippet 'image-element'
+//////////////////////////////////
+  {% endcomment %}

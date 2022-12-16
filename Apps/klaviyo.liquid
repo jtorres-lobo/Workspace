@@ -1,0 +1,52 @@
+<!--Klaviyo Back in Stock-->
+<script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+<script>
+    var klaviyo = klaviyo || [];
+    klaviyo.init({
+        account: "WUv92Y",
+        platform: "shopify"
+    });
+    klaviyo.enable("backinstock", {
+        trigger: {
+            product_page_text: "AVISARME CUANDO ESTE PRODUCTO ESTÉ DISPONIBLE",
+            product_page_class: "Button Button--primary--klaviyo Button--full",
+            product_page_text_align: "center",
+            product_page_margin: "10px",
+            replace_anchor: false
+        },
+        modal: {
+            headline: "Producto: {product_name}.",
+            body_content: "Registra tu correo para avisarte cuando este producto vuelva a estar disponible.",
+            email_field_label: "Tu email",
+            button_label: "AVISARME CUANDO ESTÉ DISPONIBLE",
+            close_label: "Cerrar",
+            subscription_success_label: "Gracias por dejarnos tu correo, te avisaremos cuando este producto vuelva a estar disponible.",
+            footer_content: '',
+            additional_styles: "@import url('https://fonts.googleapis.com/css?family=Helvetica+Neue');",
+            drop_background_color: "#000",
+            background_color: "#fff",
+            text_color: "#454545",
+            button_text_color: "#fff",
+            button_background_color: "#000",
+            close_button_color: "#454545",
+            error_background_color: "#fcd6d7",
+            error_text_color: "#C72E2F",
+            success_background_color: "#fff",
+            success_text_color: "Helvetica",
+            headers_font_family: "Helvetica"
+        }
+    });
+</script>
+<style>
+    .btn-notificarme {
+        border: solid 1px #000;
+        background: #000;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        margin-top: 10px;
+        width: 100%;
+        display: inline-block;
+    }
+</style>
+<!--Klaviyo Back in Stock-->

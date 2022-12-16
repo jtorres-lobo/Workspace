@@ -1,0 +1,700 @@
+<style>
+  #ingredientes_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 700px;
+    gap: 1rem;
+  }
+  .ingrediente {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+    .ingrediente h3{
+     font-size: 1rem;
+    }
+    .ingrediente p{
+     font-size: .7rem;      
+    }
+    .ingrediente h3,
+    .ingrediente p{
+      margin: 0;
+    }
+    .ingrediente .contenidos{
+      width: 180px;
+    }
+@media screen and (max-width: 520px){
+  #ingredientes_container {
+    max-width: 260px;
+  }
+}
+</style>
+
+<div style="display:none !important;">
+  <div id="block_ingredientes">
+    {%- if section.blocks.size > 0 -%}
+
+    {% assign block0 = section.blocks[0] %}
+    {% assign block1 = section.blocks[1] %}
+    {% assign block2 = section.blocks[2] %}
+    {% assign block3 = section.blocks[3] %}
+    {% assign block4 = section.blocks[4] %}
+    {% assign block5 = section.blocks[5] %}
+    {% assign block6 = section.blocks[6] %}
+    {% assign block7 = section.blocks[7] %}
+    {% assign block8 = section.blocks[8] %}
+    {% assign block9 = section.blocks[9] %}
+    {% assign block10 = section.blocks[10] %}
+    {% assign block11 = section.blocks[11] %}
+    {% assign block12 = section.blocks[12] %}
+    {% assign block13 = section.blocks[13] %}
+    {% assign block14 = section.blocks[14] %}
+    {% assign block15 = section.blocks[15] %}
+    {% assign block16 = section.blocks[16] %}
+    {% assign block17 = section.blocks[17] %}
+    {% assign block18 = section.blocks[18] %}
+    {% assign block19 = section.blocks[19] %}
+    {% assign block20 = section.blocks[20] %}
+    {% assign block21 = section.blocks[21] %}
+    {% assign block22 = section.blocks[22] %}
+    {% assign block23 = section.blocks[23] %}
+    {% assign block24 = section.blocks[24] %}
+    {% assign block25 = section.blocks[25] %}
+    {% assign block26 = section.blocks[26] %}
+    {% assign block27 = section.blocks[27] %}
+    {% assign block28 = section.blocks[28] %}
+    {% assign block29 = section.blocks[29] %}
+      
+     {% for t in product.tags %}
+
+
+
+        
+        {% if t == block0.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block0.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block0.settings.title }}
+                </h3>
+                <p>
+                  {{ block0.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block1.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block1.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block1.settings.title }}
+                </h3>
+                <p>
+                  {{ block1.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block2.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block2.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block2.settings.title }}
+                </h3>
+                <p>
+                  {{ block2.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block3.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block3.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block3.settings.title }}
+                </h3>
+                <p>
+                  {{ block3.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block4.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block4.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block4.settings.title }}
+                </h3>
+                <p>
+                  {{ block4.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block5.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block5.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block5.settings.title }}
+                </h3>
+                <p>
+                  {{ block5.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block6.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block6.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block6.settings.title }}
+                </h3>
+                <p>
+                  {{ block6.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block7.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block7.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block7.settings.title }}
+                </h3>
+                <p>
+                  {{ block7.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block8.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block8.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block8.settings.title }}
+                </h3>
+                <p>
+                  {{ block8.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block9.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block9.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block9.settings.title }}
+                </h3>
+                <p>
+                  {{ block9.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block10.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block10.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block10.settings.title }}
+                </h3>
+                <p>
+                  {{ block10.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block11.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block11.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block11.settings.title }}
+                </h3>
+                <p>
+                  {{ block11.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block12.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block12.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block12.settings.title }}
+                </h3>
+                <p>
+                  {{ block12.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block13.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block13.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block13.settings.title }}
+                </h3>
+                <p>
+                  {{ block13.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block14.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block14.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block14.settings.title }}
+                </h3>
+                <p>
+                  {{ block14.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block15.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block15.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block15.settings.title }}
+                </h3>
+                <p>
+                  {{ block15.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block16.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block16.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block16.settings.title }}
+                </h3>
+                <p>
+                  {{ block16.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block17.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block17.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block17.settings.title }}
+                </h3>
+                <p>
+                  {{ block17.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block18.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block18.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block18.settings.title }}
+                </h3>
+                <p>
+                  {{ block18.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block19.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block19.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block19.settings.title }}
+                </h3>
+                <p>
+                  {{ block19.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block20.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block20.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block20.settings.title }}
+                </h3>
+                <p>
+                  {{ block20.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block21.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block21.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block21.settings.title }}
+                </h3>
+                <p>
+                  {{ block21.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block22.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block22.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block22.settings.title }}
+                </h3>
+                <p>
+                  {{ block22.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block23.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block23.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block23.settings.title }}
+                </h3>
+                <p>
+                  {{ block23.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block24.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block24.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block24.settings.title }}
+                </h3>
+                <p>
+                  {{ block24.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block25.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block25.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block25.settings.title }}
+                </h3>
+                <p>
+                  {{ block25.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block26.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block26.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block26.settings.title }}
+                </h3>
+                <p>
+                  {{ block26.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block27.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block27.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block27.settings.title }}
+                </h3>
+                <p>
+                  {{ block27.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block28.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block28.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block28.settings.title }}
+                </h3>
+                <p>
+                  {{ block28.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+        {% if t == block29.settings.title %}
+            <div class="ingrediente">
+              <div>
+                <img style="max-width: 100px;" {% render 'image-attributes', image: block29.settings.image, sizes: '200' %}>
+              </div>
+              <div class="contenidos">
+                <h3>
+                  {{ block29.settings.title }}
+                </h3>
+                <p>
+                  {{ block29.settings.content }}
+                </p>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+      {% endfor %}
+     
+
+
+
+    
+    
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  setTimeout(
+      window.onload = () => {
+
+            const a = document.getElementById("block_ingredientes").innerHTML;
+            const b = document.getElementById("ingredientes_container");
+            b.innerHTML = a;
+
+            }, 1000
+  )
+</script>
+
+{% schema %}
+{
+  "name": "Products Ingredientes",
+  "class": "products-ingredientes",
+  "max_blocks": 50,
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "name": "Content",
+      "type": "content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "info": "max recommended 200px 1:1",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

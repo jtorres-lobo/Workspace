@@ -1,0 +1,138 @@
+{
+  "sections": {
+    "main": {
+      "type": "static-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "60e23e44-c945-4c06-b0cc-86fe89761086": {
+          "type": "sku",
+          "settings": {
+          }
+        },
+        "vendor": {
+          "type": "vendor",
+          "settings": {
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "4f17f891-a8e2-444a-aed9-a92a258b2a10": {
+          "type": "pagina",
+          "settings": {
+            "page_title": "Hasta 12 cuotas sin interes",
+            "page_subtitle": "",
+            "page_text_link": "",
+            "page": ""
+          }
+        },
+        "529e7e7b-46dc-45e6-92a1-a6548e98b881": {
+          "type": "pagina",
+          "settings": {
+            "page_title": "Envíos a todo Chile",
+            "page_subtitle": "El costo de envío cambia según la ubicación",
+            "page_text_link": "Calcular tu envío",
+            "page": "dias-habiles"
+          }
+        },
+        "986880c9-a352-419f-8244-73503afbb6e4": {
+          "type": "pagina",
+          "settings": {
+            "page_title": "Hasta 6 meses de garantía",
+            "page_subtitle": "Devolución sin costo",
+            "page_text_link": "",
+            "page": ""
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "60e23e44-c945-4c06-b0cc-86fe89761086",
+        "vendor",
+        "rating",
+        "price",
+        "4f17f891-a8e2-444a-aed9-a92a258b2a10",
+        "529e7e7b-46dc-45e6-92a1-a6548e98b881",
+        "986880c9-a352-419f-8244-73503afbb6e4",
+        "form",
+        "share"
+      ],
+      "settings": {
+        "show_breadcrumbs": true,
+        "layout": "layout--two-col-medium",
+        "show_dcb": false,
+        "product_cart_redirect": false,
+        "gallery_aspect_ratio": "natural",
+        "gallery_image_crop": false,
+        "gallery_thumbnail_position": "below",
+        "gallery_video_autoplay": true,
+        "gallery_video_looping": true,
+        "gallery_hover_zoom": "disabled",
+        "gallery_click_to_zoom": "always"
+      }
+    },
+    "detalles": {
+      "type": "dynamic-producto-detalles",
+      "settings": {
+      }
+    },
+    "cacteristicas": {
+      "type": "static-product-caracteristicas",
+      "settings": {
+        "products_row": 3,
+        "products_row_mobile": 2,
+        "color_txt": "#000000",
+        "bg_section": "#ebebeb",
+        "title": "¿Qué le pide a su producto?",
+        "subtitle": "Descubra todas sus caracteristicas y funcionalidades."
+      }
+    },
+    "recommendations": {
+      "type": "static-product-recommendations",
+      "settings": {
+        "show_product_recommendations": true,
+        "product_recommendations_heading": "También te podría interesar"
+      }
+    },
+    "product-reviews": {
+      "type": "static-product-reviews",
+      "settings": {
+      }
+    },
+    "recently-viewed": {
+      "type": "static-recently-viewed",
+      "settings": {
+        "enable_recently_viewed_products": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "detalles",
+    "cacteristicas",
+    "recommendations",
+    "product-reviews",
+    "recently-viewed"
+  ]
+}

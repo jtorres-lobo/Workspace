@@ -1,0 +1,1584 @@
+{% comment %}
+/////////////Los estilos son de referencia, modificar a necesidad.//////////////
+{% endcomment %}
+<style>
+    .shipping_addres_container {
+        background: #ffffff;
+        padding: 1rem;
+    }
+
+    .shipping_addres_container select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    .shipping_addres_container select::-ms-expand {
+        display: none;
+    }
+
+    .shipping_addres_container select {
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        padding: 7px 10px;
+        margin: .3rem 0;
+        height: 38px;
+        outline: 0;
+        border: 0;
+        border-radius: 0;
+        background: #f0f0f0;
+        color: #000000;
+        border: 2px solid rgb(39, 39, 39);
+        border-radius: 3px;
+        position: relative;
+    }
+
+    .shipping_addres_container select:hover {
+        background: #ffffff;
+        color: black;
+        }
+
+    .p-btn {
+        font-size: 2rem;
+        font-family: sans-serif;
+        border: 1px solid;
+        color: black;
+        font-family: sans-serif;
+
+    }
+
+    .btn-inactive {
+        cursor: not-allowed;
+        color: gray !important;
+    }
+</style>
+{% comment %}
+/////////////Start Permalink BOX selector//////////////
+{% endcomment %}
+
+<div class="shipping_addres_container">
+    <h3>Dirección de envío</h3>
+    <select id="provinces_selector" value="">
+        <option selected="selected" disabled="disabled">Selecciona tu Región</option>
+    </select>
+    <select id="cities_selector">
+        <option selected="selected" disabled="disabled" value="">Selecciona tu Ciudad</option>
+    </select>
+</div>
+
+{% comment %}
+/////////////END Permalink BOX selector////////////////
+{% endcomment %}
+
+{% comment %}
+/////////////Start Permalink BTN LIQUID////////////////
+{% endcomment %}
+
+{% assign products_permalink = '' %}
+{% comment %}
+Permalink base, añade todos los productos, esta en desarrollo para agregar los descuentos.
+{% endcomment %}
+{% capture permalink_btn %}
+
+<a 
+    id="permalink" 
+    class="cart__update-button button button--secondary btn-inactive p-btn"
+    disabled
+    href="/cart/
+    {%- for item in cart.items -%}
+    {{- products_permalink | append: item.variant.id | append: ':' | append: item.quantity | append: ',' -}}
+    {%- endfor -%}
+    ?">
+        Check out
+</a>
+{% endcapture %}
+
+{% comment %}
+Este es el boton que debe remplazar el del checkout corriente.
+{% endcomment %}
+{{ permalink_btn }}
+
+{% comment %}
+//////////////END Permalink BTN LIQUID/////////////////
+{% endcomment %}
+
+<script>
+    //Si se agrega la api, agregar un Timeset.
+window.onload = () => {
+  const provinceSelector = document.querySelector("#provinces_selector");
+  const citySelector = document.querySelector("#cities_selector");
+  
+  const countryModel = "checkout[shipping_address][country]=";
+  const provinceModel = "checkout[shipping_address][province]=";
+  const cityModel = "checkout[shipping_address][city]=";
+  let permalink_buy_btn = document.querySelector("#permalink").href;
+
+  //Queda pendiente ver si se puede obtener API de Regiones y ciudades.
+  const regiones = [
+    { code: "AP", name: "Arica y Parinacota" },
+    { code: "TA", name: "Tarapacá" },
+    { code: "AN", name: "Antofagasta" },
+    { code: "AT", name: "Atacama" },
+    { code: "CO", name: "Coquimbo" },
+    { code: "VS", name: "Valparaíso" },
+    { code: "RM", name: "Región Metropolitana" },
+    { code: "LI", name: "Libertador General Bernardo O’Higgins" },
+    { code: "ML", name: "Maule" },
+    { code: "NB", name: "Ñuble" },
+    { code: "BI", name: "Bío Bío" },
+    { code: "AR", name: "Araucanía" },
+    { code: "LR", name: "Los Ríos" },
+    { code: "LL", name: "Los Lagos" },
+    { code: "AI", name: "Aysén" },
+    { code: "MA", name: "Región de Magallanes" },
+  ];
+
+  const ciudades = [
+        {
+          "nombre": "Arica",
+          "region": "AP"
+        },
+        {
+          "nombre": "Camarones",
+          "region": "AP"
+        },
+        {
+          "nombre": "General Lagos",
+          "region": "AP"
+        },
+        {,
+        "nombre": "Putre",
+        "region": "AP"
+      },
+    {
+      "nombre": "Alto Hospicio",
+      "region": "TA"
+    },
+    {
+      "nombre": "Camiña",
+      "region": "TA"
+    },
+    {
+      "nombre": "Colchane",
+      "region": "TA"
+    },
+    {,
+      "nombre": "Huara",
+      "region": "TA"
+    },
+    {,
+      "nombre": "Iquique",
+      "region": "TA"
+    },
+    {,
+      "nombre": "Pica",
+      "region": "TA"
+    },
+    {,
+      "nombre": "Pozo Almonte",
+      "region": "TA"
+    },
+    {
+      "nombre": "Antofagasta",
+      "region": "AN"
+    },
+    {
+      "nombre": "Calama",
+      "region": "AN"
+    },
+    {,
+      "nombre": "María Elena",
+      "region": "AN"
+    },
+    {,
+      "nombre": "Mejillones",
+      "region": "AN"
+    },
+    {,
+      "nombre": "Ollague",
+      "region": "AN"
+    },
+    {,
+      "nombre": "San Pedro de Atacama",
+      "region": "AN"
+    },
+    {,
+      "nombre": "Sierra Gorda",
+      "region": "AN"
+    },
+    {,
+      "nombre": "Taltal",
+      "region": "AN"
+    },
+    {,
+      "nombre": "Tocopilla",
+      "region": "AN"
+    },
+    {
+      "nombre": "Alto del Carmen",
+      "region": "AT"
+    },
+    {
+      "nombre": "Caldera",
+      "region": "AT"
+    },
+    {
+      "nombre": "Chañaral",
+      "region": "AT"
+    },
+    {
+      "nombre": "Copiapó",
+      "region": "AT"
+    },
+    {
+      "nombre": "Diego de Almagro",
+      "region": "AT"
+    },
+    {
+      "nombre": "Freirina",
+      "region": "AT"
+    },
+    {,
+      "nombre": "Huasco",
+      "region": "AT"
+    },
+    {,
+      "nombre": "Tierra Amarilla",
+      "region": "AT"
+    },
+    {,
+      "nombre": "Vallenar",
+      "region": "AT"
+    },
+    {
+      "nombre": "Andacollo",
+      "region": "CO"
+    },
+    {
+      "nombre": "Canela",
+      "region": "CO"
+    },
+    {
+      "nombre": "Combarbalá",
+      "region": "CO"
+    },
+    {
+      "nombre": "Coquimbo",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Illapel",
+      "region": "CO"
+    },
+    {,
+      "nombre": "La Higuera",
+      "region": "CO"
+    },
+    {,
+      "nombre": "La Serena",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Los Vilos",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Monte Patria",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Ovalle",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Paihuano",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Punitaqui",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Río Hurtado",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Salamanca",
+      "region": "CO"
+    },
+    {,
+      "nombre": "Vicuña",
+      "region": "CO"
+    },
+    {
+      "nombre": "Algarrobo",
+      "region": "VS"
+    },
+    {
+      "nombre": "Cabildo",
+      "region": "VS"
+    },
+    {
+      "nombre": "Calle Larga",
+      "region": "VS"
+    },
+    {
+      "nombre": "Cartagena",
+      "region": "VS"
+    },
+    {
+      "nombre": "Casablanca",
+      "region": "VS"
+    },
+    {
+      "nombre": "Catemu",
+      "region": "VS"
+    },
+    {
+      "nombre": "Concón",
+      "region": "VS"
+    },
+    {
+      "nombre": "El Quisco",
+      "region": "VS"
+    },
+    {
+      "nombre": "El Tabo",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Hijuelas",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Isla de Pascua",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Juan Fernández",
+      "region": "VS"
+    },
+    {,
+      "nombre": "La Calera",
+      "region": "VS"
+    },
+    {,
+      "nombre": "La Cruz",
+      "region": "VS"
+    },
+    {,
+      "nombre": "La Ligua",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Limache",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Llay Llay",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Los Andes",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Nogales",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Olmué",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Panquehue",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Papudo",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Petorca",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Puchuncaví",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Putaendo",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Quillota",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Quilpué",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Quintero",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Rinconada",
+      "region": "VS"
+    },
+    {,
+      "nombre": "San Antonio",
+      "region": "VS"
+    },
+    {,
+      "nombre": "San Esteban",
+      "region": "VS"
+    },
+    {,
+      "nombre": "San Felipe",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Santa María",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Santo Domingo",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Valparaíso",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Villa Alemana",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Viña del Mar",
+      "region": "VS"
+    },
+    {,
+      "nombre": "Zapallar",
+      "region": "VS"
+    },
+    {
+      "nombre": "Alhué",
+      "region": "RM"
+    },
+    {
+      "nombre": "Buin",
+      "region": "RM"
+    },
+    {
+      "nombre": "Calera de Tango",
+      "region": "RM"
+    },
+    {
+      "nombre": "Cerrillos",
+      "region": "RM"
+    },
+    {
+      "nombre": "Cerro Navia",
+      "region": "RM"
+    },
+    {
+      "nombre": "Colina",
+      "region": "RM"
+    },
+    {
+      "nombre": "Conchalí",
+      "region": "RM"
+    },
+    {
+      "nombre": "El Bosque",
+      "region": "RM"
+    },
+    {
+      "nombre": "El Monte",
+      "region": "RM"
+    },
+    {
+      "nombre": "Estación Central",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Huechuraba",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Independencia",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Isla de Maipo",
+      "region": "RM"
+    },
+    {,
+      "nombre": "La Cisterna",
+      "region": "RM"
+    },
+    {,
+      "nombre": "La Florida",
+      "region": "RM"
+    },
+    {,
+      "nombre": "La Granja",
+      "region": "RM"
+    },
+    {,
+      "nombre": "La Pintana",
+      "region": "RM"
+    },
+    {,
+      "nombre": "La Reina",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Lampa",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Las Condes",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Lo Barnechea",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Lo Espejo",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Lo Prado",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Macul",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Maipú",
+      "region": "RM"
+    },
+    {,
+      "nombre": "María Pinto",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Melipilla",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Ñuñoa",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Padre Hurtado",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Paine",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Pedro Aguirre Cerda",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Peñaflor",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Peñalolén",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Pirque",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Providencia",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Pudahuel",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Puente Alto",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Quilicura",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Quinta Normal",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Recoleta",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Renca",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San Bernardo",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San Joaquín",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San José de Maipo",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San Miguel",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San Pedro",
+      "region": "RM"
+    },
+    {,
+      "nombre": "San Ramón",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Santiago",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Talagante",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Tiltil",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Vitacura",
+      "region": "RM"
+    },
+    {,
+      "nombre": "Curacaví",
+      "region": "RM"
+    },
+    {
+      "nombre": "Chépica",
+      "region": "LI"
+    },
+    {
+      "nombre": "Chimbarongo",
+      "region": "LI"
+    },
+    {
+      "nombre": "Codegua",
+      "region": "LI"
+    },
+    {
+      "nombre": "Coínco",
+      "region": "LI"
+    },
+    {
+      "nombre": "Coltauco",
+      "region": "LI"
+    },
+    {
+      "nombre": "Doñihue",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Graneros",
+      "region": "LI"
+    },
+    {,
+      "nombre": "La Estrella",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Las Cabras",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Litueche",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Lolol",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Machalí",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Malloa",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Marchigue",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Mostazal",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Nancagua",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Navidad",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Olivar",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Palmilla",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Peralillo",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Paredones",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Peumo",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Pichidegua",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Pichilemu",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Placilla",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Pumanque",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Quinta de Tilcoco",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Rancagua",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Rengo",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Requínoa",
+      "region": "LI"
+    },
+    {,
+      "nombre": "San Fernando",
+      "region": "LI"
+    },
+    {,
+      "nombre": "San Vicente de Tagua Tagua",
+      "region": "LI"
+    },
+    {,
+      "nombre": "Santa Cruz",
+      "region": "LI"
+    },
+    {
+      "nombre": "Cauquenes",
+      "region": "ML"
+    },
+    {
+      "nombre": "Chanco",
+      "region": "ML"
+    },
+    {
+      "nombre": "Colbún",
+      "region": "ML"
+    },
+    {
+      "nombre": "Constitución",
+      "region": "ML"
+    },
+    {
+      "nombre": "Curepto",
+      "region": "ML"
+    },
+    {
+      "nombre": "Curicó",
+      "region": "ML"
+    },
+    {
+      "nombre": "Empedrado",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Hualañé",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Licantén",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Linares",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Longaví",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Maule",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Molina",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Parral",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Pelarco",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Pelluhue",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Pencahue",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Rauco",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Retiro",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Río Claro",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Romeral",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Sagrada Familia",
+      "region": "ML"
+    },
+    {,
+      "nombre": "San Clemente",
+      "region": "ML"
+    },
+    {,
+      "nombre": "San Javier",
+      "region": "ML"
+    },
+    {,
+      "nombre": "San Rafael",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Talca",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Teno",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Vichuquén",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Villa Alegre",
+      "region": "ML"
+    },
+    {,
+      "nombre": "Yerbas Buenas",
+      "region": "ML"
+    },
+    {
+      "nombre": "Alto Biobío",
+      "region": "BI"
+    },
+    {
+      "nombre": "Antuco",
+      "region": "BI"
+    },
+    {
+      "nombre": "Arauco",
+      "region": "BI"
+    },
+    {
+      "nombre": "Cabrero",
+      "region": "BI"
+    },
+    {
+      "nombre": "Cañete",
+      "region": "BI"
+    },
+    {
+      "nombre": "Chiguayante",
+      "region": "BI"
+    },
+    {
+      "nombre": "Concepción",
+      "region": "BI"
+    },
+    {
+      "nombre": "Contulmo",
+      "region": "BI"
+    },
+    {
+      "nombre": "Coronel",
+      "region": "BI"
+    },
+    {
+      "nombre": "Curanilahue",
+      "region": "BI"
+    },
+    {
+      "nombre": "Florida",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Hualpén",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Hualqui",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Laja",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Lebu",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Los Álamos",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Los Ángeles",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Lota",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Mulchén",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Nacimiento",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Negrete",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Penco",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Quilaco",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Quilleco",
+      "region": "BI"
+    },
+    {,
+      "nombre": "San Pedro de la Paz",
+      "region": "BI"
+    },
+    {,
+      "nombre": "San Rosendo",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Santa Bárbara",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Santa Juana",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Talcahuano",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Tirúa",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Tomé",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Tucapel",
+      "region": "BI"
+    },
+    {,
+      "nombre": "Yumbel",
+      "region": "BI"
+    },
+    {
+      "nombre": "Angol",
+      "region": "AR"
+    },
+    {
+      "nombre": "Carahue",
+      "region": "AR"
+    },
+    {
+      "nombre": "Cholchol",
+      "region": "AR"
+    },
+    {
+      "nombre": "Collipulli",
+      "region": "AR"
+    },
+    {
+      "nombre": "Cunco",
+      "region": "AR"
+    },
+    {
+      "nombre": "Curacautín",
+      "region": "AR"
+    },
+    {
+      "nombre": "Curarrehue",
+      "region": "AR"
+    },
+    {
+      "nombre": "Ercilla",
+      "region": "AR"
+    },
+    {
+      "nombre": "Freire",
+      "region": "AR"
+    },
+    {
+      "nombre": "Galvarino",
+      "region": "AR"
+    },
+    {
+      "nombre": "Gorbea",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Lautaro",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Loncoche",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Lonquimay",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Los Sauces",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Lumaco",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Melipeuco",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Nueva Imperial",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Padre las Casas",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Perquenco",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Pitrufquén",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Pucón",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Purén",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Renaico",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Saavedra",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Temuco",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Teodoro Schmidt",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Toltén",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Traiguén",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Victoria",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Vilcún",
+      "region": "AR"
+    },
+    {,
+      "nombre": "Villarrica",
+      "region": "AR"
+    },
+    {
+      "nombre": "Corral",
+      "region": "LR"
+    },
+    {
+      "nombre": "Futrono",
+      "region": "LR"
+    },
+    {,
+      "nombre": "La Unión",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Lago Ranco",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Lanco",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Los Lagos",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Máfil",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Mariquina",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Paillaco",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Panguipulli",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Río Bueno",
+      "region": "LR"
+    },
+    {,
+      "nombre": "Valdivia",
+      "region": "LR"
+    },
+    {
+      "nombre": "Ancud",
+      "region": "LL"
+    },
+    {
+      "nombre": "Calbuco",
+      "region": "LL"
+    },
+    {
+      "nombre": "Castro",
+      "region": "LL"
+    },
+    {
+      "nombre": "Chaitén",
+      "region": "LL"
+    },
+    {
+      "nombre": "Chonchi",
+      "region": "LL"
+    },
+    {
+      "nombre": "Cochamó",
+      "region": "LL"
+    },
+    {
+      "nombre": "Curaco de Vélez",
+      "region": "LL"
+    },
+    {
+      "nombre": "Dalcahue",
+      "region": "LL"
+    },
+    {
+      "nombre": "Fresia",
+      "region": "LL"
+    },
+    {
+      "nombre": "Frutillar",
+      "region": "LL"
+    },
+    {
+      "nombre": "Futaleufú",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Hualaihué",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Llanquihue",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Los Muermos",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Maullín",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Osorno",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Palena",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Puerto Octay",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Puerto Montt",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Puerto Varas",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Puqueldón",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Purranque",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Puyehue",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Queilén",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Quellón",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Quemchi",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Quinchao",
+      "region": "LL"
+    },
+    {,
+      "nombre": "Río Negro",
+      "region": "LL"
+    },
+    {,
+      "nombre": "San Juan de la Costa",
+      "region": "LL"
+    },
+    {,
+      "nombre": "San Pablo",
+      "region": "LL"
+    },
+    {
+      "nombre": "Aysén",
+      "region": "AI"
+    },
+    {
+      "nombre": "Chile Chico",
+      "region": "AI"
+    },
+    {
+      "nombre": "Cisnes",
+      "region": "AI"
+    },
+    {
+      "nombre": "Cochrane",
+      "region": "AI"
+    },
+    {
+      "nombre": "Coyhaique",
+      "region": "AI"
+    },
+    {,
+      "nombre": "Guaitecas",
+      "region": "AI"
+    },
+    {,
+      "nombre": "Lago Verde",
+      "region": "AI"
+    },
+    {,
+      "nombre": "O'Higgins",
+      "region": "AI"
+    },
+    {,
+      "nombre": "Río Ibáñez",
+      "region": "AI"
+    },
+    {,
+      "nombre": "Tortel",
+      "region": "AI"
+    },
+    {
+      "nombre": "Antártica",
+      "region": "MA"
+    },
+    {
+      "nombre": "Cabo de Hornos",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Laguna Blanca",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Natales",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Porvenir",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Primavera",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Punta Arenas",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Río Verde",
+      "region": "MA"
+    },
+    {,
+      "nombre": "San Gregorio",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Timaukel",
+      "region": "MA"
+    },
+    {,
+      "nombre": "Torres del Paine",
+      "region": "MA"
+    },
+    {
+      "nombre": "Bulnes",
+      "region": "NB"
+    },
+    {
+      "nombre": "Chillán",
+      "region": "NB"
+    },
+    {
+      "nombre": "Chillán Viejo",
+      "region": "NB"
+    },
+    {
+      "nombre": "Cobquecura",
+      "region": "NB"
+    },
+    {
+      "nombre": "Coelemu",
+      "region": "NB"
+    },
+    {
+      "nombre": "Coihueco",
+      "region": "NB"
+    },
+    {
+      "nombre": "El Carmen",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Ninhue",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Ñiquen",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Pemuco",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Pinto",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Portezuelo",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Quillón",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Quirihue",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Ránquil",
+      "region": "NB"
+    },
+    {,
+      "nombre": "San Carlos",
+      "region": "NB"
+    },
+    {,
+      "nombre": "San Fabián",
+      "region": "NB"
+    },
+    {,
+      "nombre": "San Ignacio",
+      "region": "NB"
+    },
+    {,
+      "nombre": "San Nicolás",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Trehuaco",
+      "region": "NB"
+    },
+    {,
+      "nombre": "Yungay",
+      "region": "NB"
+    }
+    ];
+
+  document.querySelector("#permalink").href = "#";
+  regiones.forEach((e) => {
+        let provinceOption = document.createElement("option");
+        provinceOption.setAttribute("value", `${e.code}`);
+        provinceOption.innerHTML = `${e.name}`;
+        provinceSelector.appendChild(provinceOption);
+    });
+
+    provinceSelector.addEventListener("change", () => {
+        selectedProvince = provinceSelector.value;
+        console.log(selectedProvince);
+        getCities(selectedProvince);
+    });
+
+    const getCities = (province_selected) => {
+        citySelector.innerHTML = "<option selected='selected' disabled='disabled' value=''>Selecciona tu Ciudad</option>";
+        console.log(province_selected);
+        res = ciudades.filter((a) => a.region === province_selected);
+        console.log(res);
+
+        res.forEach((e) => {
+            let cityOption = document.createElement("option");
+            cityOption.setAttribute("value", `${e.nombre}`);
+            cityOption.setAttribute("region", `${e.region}`);
+            cityOption.innerHTML = `${e.nombre}`;
+            citySelector.appendChild(cityOption);
+        });
+
+    };
+
+    citySelector.addEventListener("change", () => {
+        if(provinceSelector.value != "" && citySelector.value != ""){
+            document.querySelector("#permalink").classList.remove("btn-inactive");
+            document.querySelector("#permalink").href = `${permalink_buy_btn}${countryModel}CL&${provinceModel}${provinceSelector.value}&${cityModel}${citySelector.value}`;
+        }
+    });
+  
+};
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "cart__footer-wrapper",
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

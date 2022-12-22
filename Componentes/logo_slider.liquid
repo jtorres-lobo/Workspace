@@ -1,0 +1,139 @@
+<div class="marquee">
+  <ul class="marquee-content">
+    {% for block in section.blocks %}
+      {% if block.settings.link %}
+        <li>
+          <a href="{{ block.settings.link }}">
+          {%
+            render 'image-element',
+            image: block.settings.image,
+            alt: 'logo'
+          %}
+          </a>
+        </li>
+      {% else %}
+        <li>
+          {%
+            render 'image-element',
+            image: block.settings.image,
+            alt: 'logo'
+          %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+<style>
+  :root {
+    --marquee-width: 80vw;
+    --marquee-height: 20vh;
+    --marquee-elements-displayed: 5;
+    --marquee-element-width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
+    --marquee-animation-duration: calc(var(--marquee-elements) * {{ section.settings.duration }}s);
+  }
+
+  .marquee {
+    margin: auto;
+    max-width: 99.5%;
+    max-height: {{ section.settings.max_height }}px;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-content {
+    list-style: none;
+    height: 100%;
+    display: flex;
+    animation: scrolling var(--marquee-animation-duration) linear infinite;
+  }
+  /* .marquee-content:hover {
+    animation-play-state: paused;
+  } */
+  @keyframes scrolling {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements))); }
+  }
+  .marquee-content li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: var(--marquee-element-width);
+    max-height: 100%;
+  }
+
+  .marquee-content li img {
+    width: 100%;
+    border: 2px solid #eee;
+  }
+
+  @media (max-width: 600px) {
+    html { font-size: 12px; }
+    :root {
+      --marquee-width: 100vw;
+      --marquee-height: 16vh;
+      --marquee-elements-displayed: 3;
+    }
+    .marquee:before, .marquee:after { width: 5rem; }
+  }
+</style>
+
+<script>
+      const root = document.documentElement;
+      const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue("--marquee-elements-displayed");
+      const marqueeContent = document.querySelector("ul.marquee-content");
+
+      root.style.setProperty("--marquee-elements", marqueeContent.children.length);
+
+  for(let i=0; i<marqueeElementsDisplayed; i++) {
+    marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Logo Slider",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_height",
+      "label": "Altura maxima",
+      "min": 130,
+      "max": 200,
+      "step": 10,
+      "default": 130,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "label": "Velocidad",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "unit": "s"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo",
+          "info": "PNG image, 1:1, 200px x 200px recommended."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

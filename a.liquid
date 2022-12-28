@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+<html
+  lang="{{ locale }}"
+  dir="{{ direction }}"
+  class="{{ checkout_html_classes }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,28 +16,43 @@
     {{ checkout_stylesheets }}
     {{ checkout_scripts }}
     {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRW2SghiktO0HOBD8yStRIgxROu-QvcZ0&libraries=places">
-    </script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRW2SghiktO0HOBD8yStRIgxROu-QvcZ0&libraries=places"></script>
+    <style>
+      .firstNameBlock{
+        width: 51%;
+        height: 55%;
+        position: absolute;
+        background: #ffffff40;
+        z-index: 99;
+      }
+      @media (max-width: 750px) {
+        .firstNameBlock {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body>
     {{ skip_to_content_link }}
-    
-    <header class="banner jjj" data-header role="banner">
+
+    <header
+      class="banner jjj"
+      data-header
+      role="banner">
       <div class="wrap">
         {{ content_for_logo }}
       </div>
     </header>
 
     {{ order_summary_toggle }}
-    <div class="content ghg" data-content>
+      <div class="content ghg" data-content>
       {% comment %}Added by Robert at Dimerc on May 17, 2022{% endcomment %}
+      {% comment %}
       {% if settings.checkout_customization %}
-        {% render 'checkout-customization' %}
+      {% render 'checkout-customization' %}
       {% endif %}
-      <div class="wrap hjh">
-        <div class="main hjhj">
+      {% endcomment %}
+        <div class="wrap hjh"> <div class="main hjhj">
           <header class="main__header" role="banner">
             {{ content_for_logo }}
             {{ breadcrumb }}
@@ -57,6 +75,144 @@
         </aside>
       </div>
     </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"></script>
+    <script>
+
+      function fillAdress(){
+        $("#new_element_clone").empty();
+
+        let adressFill = [
+          {% for address in customer.addresses %}
+            {
+              //"opcion":"{{ address.address1 }},{{ address.address2 }},{{ address.city }},Santiago,{{ address.country }}({{ address.name }})",
+              "id":"{{ address.id }}",
+              "first_name":"{{ address.first_name }}",
+              "last_name":"{{ address.last_name }}",
+              "last_name":"{{ address.last_name }}",
+              "address1":"{{ address.address1 }}",
+              "address2":"{{ address.address2 }}",
+              "city":"{{ address.city }}",
+              "province":"{{ address.province }}",
+              "zip":"{{ address.zip }}",
+              "country":"{{ address.country }}",
+              "name":"{{ address.name }}",
+              "province_code":"{{ address.province_code }}",
+              "country_code":"{{ address.country_code }}",
+            },
+          {% endfor %}
+        ];
+        for(var i=0; i < adressFill.length; i++){ 
+          $("#new_element_clone").append(`
+            <option id="option`+adressFill[i].id+`" value="`+adressFill[i].id+`">`
+              +adressFill[i].address1+" , "+adressFill[i].address2+" , "+adressFill[i].city+" Santiago "+adressFill[i].name+
+            `</option>`);      
+          $("#option"+adressFill[i].id).attr({"data-properties":JSON.stringify(adressFill[i])});
+        };
+      }
+      $(document).ready(function() {
+        
+        $("div[data-address-field='country']").append("<div class='field__input-wrapper' id='OptionsContainer'>" + "<span id='optionLabel' class='field__label field__label--visible'>Direcciones guardadas</span>" + "</div>");
+
+        let clonado = jQuery('#checkout_shipping_address_id').clone();
+        clonado.attr("id", "new_element_clone");
+        clonado.attr("name", "new_element");
+        clonado.attr("placeholder", "Direcciones guardadas");
+        clonado.attr("data-field-name-format", "new_element");
+        clonado.attr("data-backup", "new_element");
+        clonado.appendTo('#OptionsContainer');
+
+        $("#OptionsContainer").append("<div class='field__caret shown-if-js'>" + "<svg class='icon-svg icon-svg--color-adaptive-lighter icon-svg--size-10 field__caret-svg' role='presentation' aria-hidden='true' focusable='false'>" + "<use xlink:href='#caret-down'></use>" + "</svg>" + "</div>");
+
+        $("#new_element_clone option:last-child").css({"display": "none"})
+
+        fillAdress();
+
+        $("#new_element_clone").val(window.localStorage.getItem('new_element_clone'))
+
+        if (window.localStorage.getItem('first_name')) {
+          $("#checkout_shipping_address_first_name").val(window.localStorage.getItem('first_name'))
+        }
+        if (window.localStorage.getItem('last_name')) {
+          $("#checkout_shipping_address_last_name").val(window.localStorage.getItem('last_name'))
+        }
+        if (window.localStorage.getItem('company')) {
+          $("#checkout_shipping_address_company").val(window.localStorage.getItem('company'))
+        }
+        if (window.localStorage.getItem('phone')) {
+          $("#checkout_shipping_address_phone").val(window.localStorage.getItem('phone'))
+        }
+
+        if (window.localStorage.getItem('address1')) {
+          $("#checkout_shipping_address_address1").val(window.localStorage.getItem('address1'))
+        }
+        if (window.localStorage.getItem('address2')) {
+          $("#checkout_shipping_address_address2").val(window.localStorage.getItem('address2'))
+        }
+        if (window.localStorage.getItem('zip')) {
+          $("#checkout_shipping_address_zip").val(window.localStorage.getItem('zip'))
+        }
+        if (window.localStorage.getItem('region')) {
+          $("#checkout_shipping_address_province").val(window.localStorage.getItem('region'))
+        }
+        if (window.localStorage.getItem('city')) {
+          $("#checkout_shipping_address_city").val(window.localStorage.getItem('city'))
+        }
+
+        $("#new_element_clone").change(function() {
+          
+          let value = $(this).val();
+          let selector = $("option[value=" + value + "]").attr("data-properties");
+
+          let userObj = JSON.parse(selector, (key, value) => {
+            if (typeof value === 'string') {
+              return value;
+            }
+            return value;
+
+          });
+
+          window.localStorage.setItem('new_element_clone', value);
+
+          window.localStorage.setItem('first_name', userObj.first_name);
+          window.localStorage.setItem('last_name', userObj.last_name);
+          window.localStorage.setItem('company', userObj.company);
+          window.localStorage.setItem('phone', userObj.phone);
+
+          window.localStorage.setItem('address1', userObj.address1);
+          window.localStorage.setItem('address2', userObj.address2);
+          window.localStorage.setItem('zip', userObj.zip);
+          window.localStorage.setItem('region', userObj.province_code);
+          window.localStorage.setItem('city', userObj.city);
+
+          window.location.reload()
+        });
+
+        $("div[data-address-field='first_name']").append(`<div class="firstNameBlock"></div>`);
+        $("div[data-address-field='last_name']").append(`<div style="width: 100%;height: 55%;position: absolute;background: #ffffff40;z-index: 99;"></div>`);
+      });
+    </script>
+    <style>
+      div[data-address-field="country"] > div:first-child {
+        display: none;
+      }
+      label[for="checkout_shipping_address_id"] {
+        display: none;
+      }
+      #checkout_shipping_address_id {
+        max-width: 1em;
+        border: 0;
+        background-color: white;
+        position: relative;
+        left: 93%;
+        margin-bottom: -10em;
+      }
+      .section.section--billing-address {
+        display: none !important;
+      }
+    </style>
 
     {{ tracking_code }}
   </body>

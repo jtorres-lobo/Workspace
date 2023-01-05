@@ -16,7 +16,8 @@
     {{ checkout_stylesheets }}
     {{ checkout_scripts }}
     {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRW2SghiktO0HOBD8yStRIgxROu-QvcZ0&libraries=places"></script>
+    <script 
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRW2SghiktO0HOBD8yStRIgxROu-QvcZ0&libraries=places"></script>
     <style>
       .firstNameBlock{
         width: 51%;
@@ -47,12 +48,8 @@
     {{ order_summary_toggle }}
       <div class="content ghg" data-content>
       {% comment %}Added by Robert at Dimerc on May 17, 2022{% endcomment %}
-      {% comment %}
-      {% if settings.checkout_customization %}
-      {% render 'checkout-customization' %}
-      {% endif %}
-      {% endcomment %}
-        <div class="wrap hjh"> <div class="main hjhj">
+        <div class="wrap hjh"> 
+          <div class="main hjhj">
           <header class="main__header" role="banner">
             {{ content_for_logo }}
             {{ breadcrumb }}

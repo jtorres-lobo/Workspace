@@ -1,0 +1,41 @@
+"15fa2f52-d409-4379-b7a4-c25ec1e4ca48": {
+    "type": "index__featured-collection",
+    "settings": {
+        "title": "🔥🔥Recién Llegados🔥🔥",
+        "collection": "lo-mas-nuevo",
+        "products_per": 7,
+        "mobile_products_per_row": "2",
+        "products_limit": 49,
+        "align_height": true,
+        "collection_height": 150,
+        "collection_style": "slider",
+        "width": "standard",
+        "show_gutter": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ".thumbnail-sticker {\n    padding: 1px 3px;\n}"
+    }
+},
+"15fa2f52-d409-4379-b7a4-c25ec1e4ca48": {
+    "type": "index__featured-collection",
+    "settings": {
+        "title": "🔥🔥Recién Llegados🔥🔥",
+        "collection": "alchohol-gel",
+        "modal_message": "Producto Añadido correctamente.",
+        "products_per": 7,
+        "mobile_products_per_row": "2",
+        "products_limit": 15,
+        "align_height": true,
+        "collection_height": 150,
+        "collection_style": "slider",
+        "width": "standard",
+        "show_gutter": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ".thumbnail-sticker {\n    padding: 1px 3px;\n}"
+    }
+},
